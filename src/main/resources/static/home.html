@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Country Finder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+        }
+        input, button {
+            padding: 10px;
+            margin: 5px;
+        }
+        #result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<h1>Country Finder</h1>
+<label for="number">Enter Number:</label>
+<input type="text" id="number" placeholder="Enter number">
+<button onclick="findCountry()">Find</button>
+<div id="result"></div>
+<script>
+    async function findCountry() {
+        const number = document.getElementById('number').value;
+        const resultDiv = document.getElementById('result');
+        const url = 'http://localhost:8088/api/country/get';
+        resultDiv.innerHTML = '';
+        const request = {number: number};
+
+        try {
+            const response = await fetch(url, {
+                method: "POST",
+                mode: "cors",
+                cache: "no-cache",
+                credentials: "same-origin",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                redirect: "follow",
+                referrerPolicy: "no-referrer",
+                body: JSON.stringify(request),
+            });
+
+            const data = await response.json();
+            if (data.message) {
+                resultDiv.innerHTML = `<p style="color: red;">${data.message}</p>`;
+            } else if (data.country) {
+                const countries = data.country.join(', ');
+                resultDiv.innerHTML = `<p>Result: ${countries}</p>`;
+            }
+        } catch (error) {
+            resultDiv.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+        }
+    }
+</script>
+</body>
+</html>
