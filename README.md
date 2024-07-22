@@ -1,13 +1,13 @@
-Search for country name by phone number
+  Search for country name by phone number
 
 To compile the application write via command line:
-./gradlew build 
+  ./gradlew build 
 
 To run the tests write via command line:
-./gradlew test
+  ./gradlew test
 
 To run the application write via command line:
-./gradlew bootRun
+  ./gradlew bootRun
 
 The application is running on port 8088.
 
